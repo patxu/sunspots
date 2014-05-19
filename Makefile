@@ -6,7 +6,7 @@ CFLAGS = -Wall -pedantic -std=c99
 VALFLAGS = --tool=memcheck --leak-check=yes --show-leak-kinds=all 
 DEBUG = -g
 CFILES = sunspots.c hash.c
-ARGS = ./data/
+ARGS = ./data1/
 OUTPUT = sun
 
 #creates and runs the executable

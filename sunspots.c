@@ -73,16 +73,33 @@ int argCheck(int argc, char *argv[]){
 
 void printSpot(SPOT* spot){
 
+  printf("Date: ");
+  
+  for (int i = 0; i < MONTH_SIZE; i++){
+    if (spot->day[i] == ' ')
+      continue;
+    printf("%c", spot->month[i]);
+  }
+  printf("/");
+
+  for (int i = 0; i < DAY_SIZE; i++){
+    if (spot->day[i] == ' ')
+      continue;
+    printf("%c", spot->day[i]);
+  }
+  printf("/");
+
   for (int i = 0; i < YEAR_SIZE; i++)
     printf("%c", spot->year[i]);
 
-  for (int i = 0; i < MONTH_SIZE; i++)
-    printf("%c", spot->month[i]);
-
-  for (int i = 0; i < DAY_SIZE; i++)
-    printf("%c", spot->day[i]);
-
-  printf("%f", spot->time);
+  printf(" Time: ");
+  int hours, minutes;
+  minutes = spot->time * 60; // convert time from hours to minutes
+  hours =  minutes / 60;
+  minutes = minutes % 60;
+  printf("%.2d:%.2d UT", hours, minutes);
+  
+  printf(" Umbral area: %.3f%% of Sun", spot->umbra); //%% prints out % sign
 
   printf("\n");
 
@@ -140,9 +157,21 @@ int parseFile(char* filename, char* dirname){
       c = getc(file);
     }
     sscanf(time, "%f", &spot->time);
+    spot->time *= 24; //converts to 24 hour format
+
+    for (int i = 0; i < SKIP1_SIZE; i++)
+      getc(file);
+    
+    char umbra[UMBRA_SIZE];
+    for (int i = 0; i < UMBRA_SIZE; i++){
+      umbra[i] = c;
+      c = getc(file);
+    }
+    sscanf(umbra, "%f", &spot->umbra);
+    spot->umbra *= .0001; //converts to percentage; 100/1,000,000
 
     //addSpot(spot);
-    //printSpot(spot);
+    printSpot(spot);
 
     while((c = getc(file)) != '\n'); //get to the next line
     c = getc(file);
