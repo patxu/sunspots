@@ -7,7 +7,7 @@ VALFLAGS = --tool=memcheck --leak-check=yes --show-leak-kinds=all
 DEBUG = -g
 CFILES = sunspots.c hash.c
 ARGS = ./data1/
-OUTPUT = sun
+OUTPUT = mySun
 
 #creates and runs the executable
 sun:	clean $(SOURCES) 
