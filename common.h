@@ -1,6 +1,10 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+//241940 sunspots, but we only hash with YYYYMMDD string, and we have ~50000 
+//days over the period (1874-2013)
+#define HASH_SIZE 50000
+
 #define YEAR_SIZE 4
 #define MONTH_SIZE 2
 #define DAY_SIZE 2
@@ -54,8 +58,6 @@ Columns Quantity
 70-74   Central  meridian distance, negative to the East.
 */
 
-//241940 sunspots, so 100,000 slots may even be a bit small
-#define HASH_SIZE 100000
 
 /*
  * a SPOT corresponds to a single sunspot and has information about the sunspot
