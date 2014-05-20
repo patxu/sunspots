@@ -103,7 +103,10 @@ void printSpot(SPOT* spot){
   
   printf("\nIt has an area of %.3f%% Solar Hemispheres", spot->area); //%% prints % sign
 
-  printf(" Coordinates: (%.2f,%.2f)", spot->x, spot->y);
+  if (spot->x == -1)
+    printf("\nCoordinates unavailable\n");
+  else
+    printf("\nCoordinates: (%.2f,%.2f)\n", spot->x, spot->y);
 
   printf("\n");
 
@@ -199,11 +202,15 @@ int parseFile(char* filename, char* dirname){
     float angle;
     sscanf(degree, "%f", &angle);
 
-    float x = radius * cos(degree * PI / 180);
-    float y = radius * sin(degree * PI / 180);
+    if (distance[DISTANCE_SIZE - 1] == '0'){
+      spot->x = -1; //coordinate data unavailable
+      spot->y = -1;
+    }
+    else { 
+      spot->x = radius * cosf(angle * PI / 180);
+      spot->y = radius * sinf(angle * PI / 180);
+    }
 
-    sscanf(x, "%f", &spot->x);
-    sscanf(y, "%f", &spot->y);
 
     //addSpot(spot);
     printSpot(spot);
