@@ -6,7 +6,11 @@
 #define DAY_SIZE 2
 #define TIME_SIZE 4
 #define SKIP1_SIZE 28
-#define UMBRA_SIZE 4
+#define AREA_SIZE 4
+#define SKIP2_SIZE 1
+#define DISTANCE_SIZE 5
+#define SKIP3_SIZE 0
+#define DEGREE_SIZE 5
 
 /*
 The data format in these the data files is given below.
@@ -62,7 +66,9 @@ typedef struct _SPOT {
   char month[MONTH_SIZE];
   char day[DAY_SIZE];
   float time;
-  float umbra;
+  float area;
+  float x;
+  float y;
 } __SPOT;
 
 typedef struct _SPOT SPOT;

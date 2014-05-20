@@ -11,12 +11,14 @@
  */
 
 #define _SVID_SOURCE
+#define PI 3.14159265
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <math.h>
 
 #include "common.h"
 #include "sunspots.h"
@@ -73,7 +75,7 @@ int argCheck(int argc, char *argv[]){
 
 void printSpot(SPOT* spot){
 
-  printf("Date: ");
+  printf("The spot was observed on ");
   
   for (int i = 0; i < MONTH_SIZE; i++){
     if (spot->day[i] == ' ')
@@ -92,14 +94,16 @@ void printSpot(SPOT* spot){
   for (int i = 0; i < YEAR_SIZE; i++)
     printf("%c", spot->year[i]);
 
-  printf(" Time: ");
+  printf(" at ");
   int hours, minutes;
   minutes = spot->time * 60; // convert time from hours to minutes
   hours =  minutes / 60;
   minutes = minutes % 60;
   printf("%.2d:%.2d UT", hours, minutes);
   
-  printf(" Umbral area: %.3f%% of Sun", spot->umbra); //%% prints out % sign
+  printf("\nIt has an area of %.3f%% Solar Hemispheres", spot->area); //%% prints % sign
+
+  printf(" Coordinates: (%.2f,%.2f)", spot->x, spot->y);
 
   printf("\n");
 
@@ -162,13 +166,44 @@ int parseFile(char* filename, char* dirname){
     for (int i = 0; i < SKIP1_SIZE; i++)
       getc(file);
     
-    char umbra[UMBRA_SIZE];
-    for (int i = 0; i < UMBRA_SIZE; i++){
-      umbra[i] = c;
+    //get AREA data
+    char area[AREA_SIZE];
+    for (int i = 0; i < AREA_SIZE; i++){
+      area[i] = c;
       c = getc(file);
     }
-    sscanf(umbra, "%f", &spot->umbra);
-    spot->umbra *= .0001; //converts to percentage; 100/1,000,000
+    sscanf(area, "%f", &spot->area);
+    spot->area *= .0001; //converts to percentage; 100/1,000,000
+    
+    for (int i = 0; i < SKIP2_SIZE; i++)
+      getc(file);
+
+    //get RADIUS from solar center
+    char distance[DISTANCE_SIZE];
+    for (int i = 0; i < DISTANCE_SIZE; i++){
+      distance[i] = c;
+      c = getc(file);
+    }
+    float radius;
+    sscanf(distance, "%f", &radius);
+
+    for (int i = 0; i < SKIP3_SIZE; i++)
+      getc(file);
+
+    //get DEGREES from heliographic north
+    char degree[DEGREE_SIZE];
+    for (int i = 0; i < DEGREE_SIZE; i++){
+      degree[i] = c;
+      c = getc(file);
+    }
+    float angle;
+    sscanf(degree, "%f", &angle);
+
+    float x = radius * cos(degree * PI / 180);
+    float y = radius * sin(degree * PI / 180);
+
+    sscanf(x, "%f", &spot->x);
+    sscanf(y, "%f", &spot->y);
 
     //addSpot(spot);
     printSpot(spot);
