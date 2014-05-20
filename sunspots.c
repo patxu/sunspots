@@ -218,10 +218,16 @@ int parseFile(char* filename, char* dirname){
       spot->x = radius * cosf(angle * PI / 180);
       spot->y = radius * sinf(angle * PI / 180);
     }
+    
+    char hash[YEAR_SIZE + MONTH_SIZE + DAY_SIZE];
+    strcpy(hash, spot->year);
+    strcat(hash, spot->month);
+    strcat(hash, spot->day);
+    for (int i = 0; i < YEAR_SIZE + MONTH_SIZE + DAY_SIZE; i++)
+      printf("%c", hash[i]);
 
-
-    //addSpot(spot);
-    printSpot(spot);
+    addSpot(spot);
+    //printSpot(spot);
 
     while((c = getc(file)) != '\n'); //get to the next line
     c = getc(file);
