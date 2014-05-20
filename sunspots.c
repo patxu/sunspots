@@ -101,9 +101,13 @@ void printSpot(SPOT* spot){
   minutes = minutes % 60;
   printf("%.2d:%.2d UT", hours, minutes);
   
-  printf("\nIt has an area of %.3f%% Solar Hemispheres", spot->area); //%% prints % sign
+  if (spot->area == -1) //area unavailable
+    printf("\nArea unavailable");
+  else{
+    printf("\nIt has an area of %.4f%% Solar Hemispheres", spot->area); //%% prints % sign
+  }
 
-  if (spot->x == -1)
+  if (spot->x == -1) //coordinates unavailable
     printf("\nCoordinates unavailable\n");
   else
     printf("\nCoordinates: (%.2f,%.2f)\n", spot->x, spot->y);
@@ -175,8 +179,12 @@ int parseFile(char* filename, char* dirname){
       area[i] = c;
       c = getc(file);
     }
-    sscanf(area, "%f", &spot->area);
-    spot->area *= .0001; //converts to percentage; 100/1,000,000
+    if (area[AREA_SIZE - 1] == '0')
+      spot->area = -1; //data unavaiable
+    else{
+      sscanf(area, "%f", &spot->area);
+      spot->area *= .0001; //converts to percentage; 100/1,000,000
+    }
     
     for (int i = 0; i < SKIP2_SIZE; i++)
       getc(file);
@@ -206,7 +214,7 @@ int parseFile(char* filename, char* dirname){
       spot->x = -1; //coordinate data unavailable
       spot->y = -1;
     }
-    else { 
+    else { //convert from polar to cartesian coordinates
       spot->x = radius * cosf(angle * PI / 180);
       spot->y = radius * sinf(angle * PI / 180);
     }
