@@ -24,11 +24,10 @@ unsigned long hash(char* str) {
 }
 
 
-void addSpot(SPOT* spot){
+void addSpot(SPOT* spot, char hashString[]){
 
-//  char hashString[]
   
-  int num = hash(spot->year);
+  int num = hash(hashString);
 
   printf("%d\n", num);
 

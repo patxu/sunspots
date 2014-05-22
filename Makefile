@@ -7,22 +7,16 @@ VALFLAGS = --tool=memcheck --leak-check=yes --show-leak-kinds=all
 DEBUG = -g
 CFILES = sunspots.c hash.c
 ARGS = ./data/
-TESTARGS = ./data1/
 OUTPUT = mySun
 
 #creates and runs the executable
 sun:	clean $(SOURCES) 
 	$(CC) $(CFLAGS) -o $(OUTPUT) $(CFILES) -lm
 	./$(OUTPUT) $(ARGS)
-	
-#creates and runs a test executable
-test:	clean $(SOURCES) 
-	$(CC) $(CFLAGS) -o $(OUTPUT) $(CFILES) -lm
-	./$(OUTPUT) $(TESTARGS)
 
 #compile and run using gdb 
 gdb:	clean $(SOURCES) 
-	$(CC) $(CFLAGS) $(DEBUG) -o $(OUTPUT) $(CFILES)
+	$(CC) $(CFLAGS) $(DEBUG) -o $(OUTPUT) $(CFILES) -lm
 	gdb --args $(OUTPUT) $(ARGS) 
 
 #run using valgrind

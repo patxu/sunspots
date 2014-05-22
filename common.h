@@ -3,7 +3,7 @@
 
 //241940 sunspots, but we only hash with YYYYMMDD string, and we have ~50000 
 //days over the period (1874-2013)
-#define HASH_SIZE 50000
+#define HASH_SIZE 20000
 
 #define YEAR_SIZE 4
 #define MONTH_SIZE 2

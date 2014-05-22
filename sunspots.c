@@ -220,13 +220,16 @@ int parseFile(char* filename, char* dirname){
     }
     
     char hash[YEAR_SIZE + MONTH_SIZE + DAY_SIZE];
-    strcpy(hash, spot->year);
-    strcat(hash, spot->month);
-    strcat(hash, spot->day);
-    for (int i = 0; i < YEAR_SIZE + MONTH_SIZE + DAY_SIZE; i++)
-      printf("%c", hash[i]);
+    for (int i = 0; i < (YEAR_SIZE + MONTH_SIZE + DAY_SIZE); i++){
+      if (i < YEAR_SIZE)
+	hash[i] = spot->year[i];
+      else if (i < YEAR_SIZE + MONTH_SIZE)
+	hash[i] = spot->month[i - YEAR_SIZE];
+      else
+	hash[i] = spot->day[i - YEAR_SIZE - MONTH_SIZE];
+    }
 
-    addSpot(spot);
+    addSpot(spot, hash);
     //printSpot(spot);
 
     while((c = getc(file)) != '\n'); //get to the next line
