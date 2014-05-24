@@ -12,7 +12,7 @@ OUTPUT = mySun
 #creates and runs the executable
 sun:	clean $(SOURCES) 
 	$(CC) $(CFLAGS) -o $(OUTPUT) $(CFILES) -lm
-	$(OUTPUT) $(ARGS)
+	./$(OUTPUT) $(ARGS)
 
 #compile and run using gdb 
 gdb:	clean $(SOURCES) 

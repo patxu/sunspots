@@ -76,7 +76,7 @@ typedef struct _SPOT {
 typedef struct _SPOT SPOT;
 
 /*
- * a sTable has a hashtable that hold all of the sunspots
+ * a sTable has a hashtable that holds all of the sunspots
  */
 typedef struct _sTable {
   SPOT* hash[HASH_SIZE];

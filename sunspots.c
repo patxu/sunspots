@@ -41,6 +41,8 @@ int main(int argc, char *argv[]){
     return FALSE;
   }
 
+  initHash();
+
   //parse files
   for (int i = 2; i < num; i++) {
 
@@ -228,9 +230,13 @@ int parseFile(char* filename, char* dirname){
       else
 	hash[i] = spot->day[i - YEAR_SIZE - MONTH_SIZE];
     }
-
-    addSpot(spot, hash);
+    
     //printSpot(spot);
+    if (strcmp(spot->year,"1874") == 1 && strcmp(spot->month,"12") == 1 && strcmp(spot->day, "31") == 1)
+      printf("here\n");
+
+    //printSpot(spot);
+    addSpot(spot, hash);
 
     while((c = getc(file)) != '\n'); //get to the next line
     c = getc(file);

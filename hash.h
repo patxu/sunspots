@@ -4,6 +4,8 @@
 
 unsigned long hash(char* str); 
 
+void initHash();
+
 void addSpot(SPOT* spot, char hashString[]);
 
 
