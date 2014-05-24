@@ -12,7 +12,7 @@ OUTPUT = mySun
 #creates and runs the executable
 sun:	clean $(SOURCES) 
 	$(CC) $(CFLAGS) -o $(OUTPUT) $(CFILES) -lm
-	./$(OUTPUT) $(ARGS)
+	$(OUTPUT) $(ARGS)
 
 #compile and run using gdb 
 gdb:	clean $(SOURCES) 
@@ -22,7 +22,13 @@ gdb:	clean $(SOURCES)
 #run using valgrind
 valgrind: clean $(SOURCES)
 	$(CC) $(CFLAGS) -o $(OUTPUT) $(CFILES)
-	valgrind $(VALFLAGS)  $(OUTPUT) $(ARGS)
+	valgrind $(VALFLAGS) $(OUTPUT) $(ARGS)
+
+#run with flag for gprof
+gprof:	clean $(SOURCES)
+	$(CC) $(CFLAGS) -pg -o $(OUTPUT) $(CFILES)
+	$(OUTPUT) $(ARGS)
+	gprof $(OUTPUT) gmon.out
 
 #clean up various executable and .o files
 clean:
