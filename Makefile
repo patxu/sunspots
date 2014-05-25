@@ -5,12 +5,12 @@ CC = gcc
 CFLAGS = -Wall -pedantic -std=c99
 VALFLAGS = --tool=memcheck --leak-check=yes --show-leak-kinds=all 
 DEBUG = -g
-CFILES = sunspots.c hash.c
+CFILES = sunspots.c
 ARGS = ./data/
 OUTPUT = mySun
 
 #creates and runs the executable
-sun:	clean $(SOURCES) 
+sun:	$(SOURCES) 
 	$(CC) $(CFLAGS) -o $(OUTPUT) $(CFILES) -lm
 	./$(OUTPUT) $(ARGS)
 

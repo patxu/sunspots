@@ -28,6 +28,8 @@ int getFiles(const char *dir, struct dirent ***namelist,
    int(*select)(const struct dirent *),
    int(*compar)(const struct dirent **, const struct dirent **));
 
+void searchForSpots(struct dirent** filename, int numfiles, char* dir);
+
 /*
  * given a string, it will open a file and parse the file, and return a spot
  */
