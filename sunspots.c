@@ -64,7 +64,7 @@ int main(int argc, char *argv[]){
     }
 
     if (found == FALSE)
-      printf("There were no sunspots that day!\n");
+      printf("\nThere were no sunspots that day!\n\n");
 
 //  }
 
@@ -113,15 +113,9 @@ int getSearchTerm(char** searchTerm, int* year, int* month, int* day){
 
 void printSpot(SPOT* spot){
 
-  printf("\nThe spot was observed on ");
+  printf("The spot was observed on ");
   
-  printf("%d", *spot->month);
-  printf("/");
-
-  printf("%d", *spot->day);
-  printf("/");
-
-  printf("%d", *spot->year);
+  printf("%d/%d/%d", *spot->month, *spot->day, *spot->year);
 
   printf(" at ");
   int hours, minutes;
@@ -202,8 +196,11 @@ int parseFile(char *filename, char* dirname, int year, int month, int day){
     sscanf(d, "%d", spot->day);
 
       
-    if (month != *spot->month || day != *spot->day)
+    if (month != *spot->month || day != *spot->day) {
+      while((c = getc(file)) != '\n'); //get to the next line
+      c = getc(file);
       continue;
+    }
 
     //get TIME data
     char time[TIME_LEN];
@@ -263,7 +260,7 @@ int parseFile(char *filename, char* dirname, int year, int month, int day){
       spot->y = radius * sinf(angle * PI / 180);
     }
     
-    char hash[YEAR_LEN + MONTH_LEN + DAY_LEN];
+    /*char hash[YEAR_LEN + MONTH_LEN + DAY_LEN];
     for (int i = 0; i < (YEAR_LEN + MONTH_LEN + DAY_LEN); i++){
       if (i < YEAR_LEN)
 	hash[i] = spot->year[i];
@@ -271,7 +268,7 @@ int parseFile(char *filename, char* dirname, int year, int month, int day){
 	hash[i] = spot->month[i - YEAR_LEN];
       else
 	hash[i] = spot->day[i - YEAR_LEN - MONTH_LEN];
-    }
+    }*/
     
     printSpot(spot);
     found = TRUE;
