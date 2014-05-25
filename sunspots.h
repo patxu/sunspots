@@ -10,6 +10,12 @@
 int argCheck(int argc, char *argv[]);
 
 /*
+ * gets the search string from the user, returning TRUE if successful and FALSE
+ * if failed. will return failure if the string is in the incorrect format
+ */
+int getSearchTerm(char** searchTerm, int* year, int* month, int* day);
+
+/*
  * given a SPOT, it will print out all the information about the spot
  */
 void printSpot(SPOT* spot);
@@ -25,6 +31,6 @@ int getFiles(const char *dir, struct dirent ***namelist,
 /*
  * given a string, it will open a file and parse the file, and return a spot
  */
-int parseFile(char *filename, char* dirname);
+int parseFile(char *filename, char* dirname, int year, int month, int day);
 
 #endif

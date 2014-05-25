@@ -41,11 +41,22 @@ int main(int argc, char *argv[]){
     return FALSE;
   }
 
-  initHash();
+  //initHash();
 
-  //parse files
+  //make the search string that we use to store the query
+  char* searchTerm = malloc(sizeof(char) * DATE_LEN); //MM/DD/YYYY
+  for (int i = 0; i < DATE_LEN; i++)
+    searchTerm[i] = '\0';
+
+  int year, month, day;
+  char c;
+  while (getSearchTerm(&searchTerm, &year, &month, &day) != TRUE){
+    printf("\nInvalid search term. Please try again.\n\n");
+    while ((c = getc(stdin)) != '\n'); //cleans up the input line
+  }
+
+  //parse files- skip first 2 files because those are . and ..
   for (int i = 2; i < num; i++) {
-
     if (parseFile(files[i]->d_name, argv[1]) == FALSE)
       printf("Could not parse file: %s\n", files[i]->d_name);
     else{ 
@@ -75,25 +86,44 @@ int argCheck(int argc, char *argv[]){
   return TRUE;
 }
 
+int getSearchTerm(char** searchTerm, int* year, int* month, int* day){
+
+  printf("Please enter your search date in the format MM/DD/YYYY: ");
+  scanf("%10s", *searchTerm);
+
+  for (int i = 0; i < DATE_LEN; i++){
+    if (i == MONTH_LEN || i == MONTH_LEN + DAY_LEN + 1){
+      if ((*searchTerm+i)[0] != '/')
+	return FALSE;
+    }
+    else if ((*searchTerm+i)[0] < 48 || (*searchTerm+i)[0] > 57)
+	return FALSE;
+  }
+
+  sscanf(*searchTerm, "%d/%d/%d", month, day, year);
+
+  return TRUE;
+}
+
 void printSpot(SPOT* spot){
 
   printf("The spot was observed on ");
   
-  for (int i = 0; i < MONTH_SIZE; i++){
+  for (int i = 0; i < MONTH_LEN; i++){
     if (spot->day[i] == ' ')
       continue;
     printf("%c", spot->month[i]);
   }
   printf("/");
 
-  for (int i = 0; i < DAY_SIZE; i++){
+  for (int i = 0; i < DAY_LEN; i++){
     if (spot->day[i] == ' ')
       continue;
     printf("%c", spot->day[i]);
   }
   printf("/");
 
-  for (int i = 0; i < YEAR_SIZE; i++)
+  for (int i = 0; i < YEAR_LEN; i++)
     printf("%c", spot->year[i]);
 
   printf(" at ");
@@ -146,73 +176,73 @@ int parseFile(char* filename, char* dirname){
 
   do{
     //get YEAR data
-    for (int i = 0; i < YEAR_SIZE; i++){
+    for (int i = 0; i < YEAR_LEN; i++){
       spot->year[i] = c;
       c = getc(file);
     }
 
     //get MONTH data
-    for (int i = 0; i < MONTH_SIZE; i++){
+    for (int i = 0; i < MONTH_LEN; i++){
       spot->month[i] = c;
       c = getc(file);
     }
 
     //get DAY data
-    for (int i = 0; i < DAY_SIZE; i++){
+    for (int i = 0; i < DAY_LEN; i++){
       spot->day[i] = c;
       c = getc(file);
     }
 
     //get TIME data
-    char time[TIME_SIZE];
-    for (int i = 0; i < TIME_SIZE; i++){
+    char time[TIME_LEN];
+    for (int i = 0; i < TIME_LEN; i++){
       time[i] = c;
       c = getc(file);
     }
     sscanf(time, "%f", &spot->time);
     spot->time *= 24; //converts to 24 hour format
 
-    for (int i = 0; i < SKIP1_SIZE; i++)
+    for (int i = 0; i < SKIP1_LEN; i++)
       getc(file);
     
     //get AREA data
-    char area[AREA_SIZE];
-    for (int i = 0; i < AREA_SIZE; i++){
+    char area[AREA_LEN];
+    for (int i = 0; i < AREA_LEN; i++){
       area[i] = c;
       c = getc(file);
     }
-    if (area[AREA_SIZE - 1] == '0')
+    if (area[AREA_LEN - 1] == '0')
       spot->area = -1; //data unavaiable
     else{
       sscanf(area, "%f", &spot->area);
       spot->area *= .0001; //converts to percentage; 100/1,000,000
     }
     
-    for (int i = 0; i < SKIP2_SIZE; i++)
+    for (int i = 0; i < SKIP2_LEN; i++)
       getc(file);
 
     //get RADIUS from solar center
-    char distance[DISTANCE_SIZE];
-    for (int i = 0; i < DISTANCE_SIZE; i++){
+    char distance[DISTANCE_LEN];
+    for (int i = 0; i < DISTANCE_LEN; i++){
       distance[i] = c;
       c = getc(file);
     }
     float radius;
     sscanf(distance, "%f", &radius);
 
-    for (int i = 0; i < SKIP3_SIZE; i++)
+    for (int i = 0; i < SKIP3_LEN; i++)
       getc(file);
 
     //get DEGREES from heliographic north
-    char degree[DEGREE_SIZE];
-    for (int i = 0; i < DEGREE_SIZE; i++){
+    char degree[DEGREE_LEN];
+    for (int i = 0; i < DEGREE_LEN; i++){
       degree[i] = c;
       c = getc(file);
     }
     float angle;
     sscanf(degree, "%f", &angle);
 
-    if (distance[DISTANCE_SIZE - 1] == '0'){
+    if (distance[DISTANCE_LEN - 1] == '0'){
       spot->x = -1; //coordinate data unavailable
       spot->y = -1;
     }
@@ -221,22 +251,22 @@ int parseFile(char* filename, char* dirname){
       spot->y = radius * sinf(angle * PI / 180);
     }
     
-    char hash[YEAR_SIZE + MONTH_SIZE + DAY_SIZE];
-    for (int i = 0; i < (YEAR_SIZE + MONTH_SIZE + DAY_SIZE); i++){
-      if (i < YEAR_SIZE)
+    char hash[YEAR_LEN + MONTH_LEN + DAY_LEN];
+    for (int i = 0; i < (YEAR_LEN + MONTH_LEN + DAY_LEN); i++){
+      if (i < YEAR_LEN)
 	hash[i] = spot->year[i];
-      else if (i < YEAR_SIZE + MONTH_SIZE)
-	hash[i] = spot->month[i - YEAR_SIZE];
+      else if (i < YEAR_LEN + MONTH_LEN)
+	hash[i] = spot->month[i - YEAR_LEN];
       else
-	hash[i] = spot->day[i - YEAR_SIZE - MONTH_SIZE];
+	hash[i] = spot->day[i - YEAR_LEN - MONTH_LEN];
     }
     
     //printSpot(spot);
-    if (strcmp(spot->year,"1874") == 1 && strcmp(spot->month,"12") == 1 && strcmp(spot->day, "31") == 1)
-      printf("here\n");
+//    if (strcmp(spot->year,"1874") == 1 && strcmp(spot->month,"12") == 1 && strcmp(spot->day, "31") == 1)
+//      printf("here\n");
 
     //printSpot(spot);
-    addSpot(spot, hash);
+    //addSpot(spot, hash);
 
     while((c = getc(file)) != '\n'); //get to the next line
     c = getc(file);

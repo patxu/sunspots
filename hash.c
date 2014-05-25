@@ -20,14 +20,14 @@ unsigned long hash(char* str) {
   int c;
   while ((c = *str++) != 0)
     hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-  return hash % HASH_SIZE;
+  return hash % HASH_LEN;
 }
 
 void initHash(){
 
   table = malloc(sizeof(sTable));
 
-  for (int i = 0; i < HASH_SIZE; i++)
+  for (int i = 0; i < HASH_LEN; i++)
     table->hash[i] = NULL;
 
 }

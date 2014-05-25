@@ -3,18 +3,19 @@
 
 //241940 sunspots, but we only hash with YYYYMMDD string, and we have ~50000 
 //days over the period (1874-2013)
-#define HASH_SIZE 20000
+#define HASH_LEN 20000
 
-#define YEAR_SIZE 4
-#define MONTH_SIZE 2
-#define DAY_SIZE 2
-#define TIME_SIZE 4
-#define SKIP1_SIZE 28
-#define AREA_SIZE 4
-#define SKIP2_SIZE 1
-#define DISTANCE_SIZE 5
-#define SKIP3_SIZE 0
-#define DEGREE_SIZE 5
+#define YEAR_LEN 4
+#define MONTH_LEN 2
+#define DAY_LEN 2
+#define TIME_LEN 4
+#define SKIP1_LEN 28
+#define AREA_LEN 4
+#define SKIP2_LEN 1
+#define DISTANCE_LEN 5
+#define SKIP3_LEN 0
+#define DEGREE_LEN 5
+#define DATE_LEN YEAR_LEN + MONTH_LEN + DAY_LEN + 2
 
 /*
 The data format in these the data files is given below.
@@ -64,9 +65,9 @@ Columns Quantity
  */
 typedef struct _SPOT {
   struct _SPOT  *next;
-  char year[YEAR_SIZE];
-  char month[MONTH_SIZE];
-  char day[DAY_SIZE];
+  char year[YEAR_LEN];
+  char month[MONTH_LEN];
+  char day[DAY_LEN];
   float time;
   float area;
   float x;
@@ -79,7 +80,7 @@ typedef struct _SPOT SPOT;
  * a sTable has a hashtable that holds all of the sunspots
  */
 typedef struct _sTable {
-  SPOT* hash[HASH_SIZE];
+  SPOT* hash[HASH_LEN];
 } __sTable;
 
 typedef struct _sTable sTable;
