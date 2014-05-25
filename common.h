@@ -65,9 +65,9 @@ Columns Quantity
  */
 typedef struct _SPOT {
   struct _SPOT  *next;
-  char year[YEAR_LEN];
-  char month[MONTH_LEN];
-  char day[DAY_LEN];
+  int year[YEAR_LEN];
+  int month[MONTH_LEN];
+  int day[DAY_LEN];
   float time;
   float area;
   float x;

@@ -41,29 +41,35 @@ int main(int argc, char *argv[]){
     return FALSE;
   }
 
-  //initHash();
+  //main loop that allows the user to use the program
+  //while (choice != 'e'){
+    //make the search string that we use to store the query
+    char* searchTerm = malloc(sizeof(char) * DATE_LEN); //MM/DD/YYYY
+    for (int i = 0; i < DATE_LEN; i++)
+      searchTerm[i] = '\0';
 
-  //make the search string that we use to store the query
-  char* searchTerm = malloc(sizeof(char) * DATE_LEN); //MM/DD/YYYY
-  for (int i = 0; i < DATE_LEN; i++)
-    searchTerm[i] = '\0';
-
-  int year, month, day;
-  char c;
-  while (getSearchTerm(&searchTerm, &year, &month, &day) != TRUE){
-    printf("\nInvalid search term. Please try again.\n\n");
-    while ((c = getc(stdin)) != '\n'); //cleans up the input line
-  }
-
-  //parse files- skip first 2 files because those are . and ..
-  for (int i = 2; i < num; i++) {
-    if (parseFile(files[i]->d_name, argv[1]) == FALSE)
-      printf("Could not parse file: %s\n", files[i]->d_name);
-    else{ 
+    int year, month, day;
+    char c;
+    while (getSearchTerm(&searchTerm, &year, &month, &day) != TRUE){
+      printf("\nInvalid search term. Please try again.\n\n");
+      while ((c = getc(stdin)) != '\n'); //cleans up the input line
     }
-    free(files[i]);
-  }
 
+
+    //parse files- skip first 2 files because those are . and ..
+    int found  = FALSE;
+    for (int i = 2; i < num; i++) {
+      if (parseFile(files[i]->d_name, argv[1], year, month, day) == TRUE)
+	found = TRUE;
+    }
+
+    if (found == FALSE)
+      printf("There were no sunspots that day!\n");
+
+//  }
+
+  for (int i = 0; i < num; i++)
+    free(files[i]);
   free(files);
   
 }
@@ -107,24 +113,15 @@ int getSearchTerm(char** searchTerm, int* year, int* month, int* day){
 
 void printSpot(SPOT* spot){
 
-  printf("The spot was observed on ");
+  printf("\nThe spot was observed on ");
   
-  for (int i = 0; i < MONTH_LEN; i++){
-    if (spot->day[i] == ' ')
-      continue;
-    printf("%c", spot->month[i]);
-  }
+  printf("%d", *spot->month);
   printf("/");
 
-  for (int i = 0; i < DAY_LEN; i++){
-    if (spot->day[i] == ' ')
-      continue;
-    printf("%c", spot->day[i]);
-  }
+  printf("%d", *spot->day);
   printf("/");
 
-  for (int i = 0; i < YEAR_LEN; i++)
-    printf("%c", spot->year[i]);
+  printf("%d", *spot->year);
 
   printf(" at ");
   int hours, minutes;
@@ -159,7 +156,7 @@ int getFiles(const char *dir, struct dirent ***files,
   return num; /*will return the number of files in the directory*/ 
 }
 
-int parseFile(char* filename, char* dirname){
+int parseFile(char *filename, char* dirname, int year, int month, int day){
 
   char fullpath[strlen(filename) + strlen(dirname) + 1]; 
   if (dirname[strlen(dirname)-1] != '/')
@@ -169,29 +166,44 @@ int parseFile(char* filename, char* dirname){
   
   FILE* file = fopen(fullpath, "r");
   if (file == NULL)
-    return FALSE;
+    printf("Could not open file: %s\n", filename);
+
+  int found = FALSE;
 
   SPOT* spot = malloc(sizeof(SPOT)); 
   char c = getc(file);
 
   do{
     //get YEAR data
+    char y[YEAR_LEN];
     for (int i = 0; i < YEAR_LEN; i++){
-      spot->year[i] = c;
+      y[i] = c;
       c = getc(file);
     }
+    sscanf(y, "%d", spot->year);
+
+    if (year != *spot->year) //check that the year matches
+      return FALSE;
 
     //get MONTH data
+    char m[MONTH_LEN];
     for (int i = 0; i < MONTH_LEN; i++){
-      spot->month[i] = c;
+      m[i] = c;
       c = getc(file);
     }
+    sscanf(m, "%d", spot->month);
 
     //get DAY data
+    char d[DAY_LEN];
     for (int i = 0; i < DAY_LEN; i++){
-      spot->day[i] = c;
+      d[i] = c;
       c = getc(file);
     }
+    sscanf(d, "%d", spot->day);
+
+      
+    if (month != *spot->month || day != *spot->day)
+      continue;
 
     //get TIME data
     char time[TIME_LEN];
@@ -261,11 +273,9 @@ int parseFile(char* filename, char* dirname){
 	hash[i] = spot->day[i - YEAR_LEN - MONTH_LEN];
     }
     
-    //printSpot(spot);
-//    if (strcmp(spot->year,"1874") == 1 && strcmp(spot->month,"12") == 1 && strcmp(spot->day, "31") == 1)
-//      printf("here\n");
-
-    //printSpot(spot);
+    printSpot(spot);
+    found = TRUE;
+    
     //addSpot(spot, hash);
 
     while((c = getc(file)) != '\n'); //get to the next line
@@ -274,5 +284,8 @@ int parseFile(char* filename, char* dirname){
   }while(c != EOF); 
 
   fclose(file);
-  return TRUE;
+
+  if (found == TRUE)
+    return TRUE;
+  return FALSE;
 }
