@@ -3,6 +3,13 @@
 
 
 /*
+ * takes in an array of filenames, the number of files in the data directory, and the
+ * name of the data directory, and deals with calling functions to get the user input
+ * and parse the files
+ */
+void searchForSpots(char* dir);
+
+/*
  * given a SPOT, it will print out all the information about the spot
  */
 void printSpot(SPOT* spot);
@@ -14,13 +21,6 @@ void printSpot(SPOT* spot);
 int getFiles(const char *dir, struct dirent ***namelist,
    int(*select)(const struct dirent *),
    int(*compar)(const struct dirent **, const struct dirent **));
-
-/*
- * takes in an array of filenames, the number of files in the data directory, and the
- * name of the data directory, and deals with calling functions to get the user input
- * and parse the files
- */
-void searchForSpots(struct dirent** filename, int numfiles, char* dir);
 
 /*
  * gets the search string from the user, returning TRUE if successful and FALSE

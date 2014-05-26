@@ -21,6 +21,43 @@
 #include "common.h"
 #include "search.h"
 
+
+void searchForSpots(char* dir){
+
+  //get data folder files into array
+  struct dirent **files;
+  int num;
+  if ((num = getFiles(dir, &files, NULL, alphasort)) == -1){
+    printf("Error when reading data files\n");
+    return;
+  }
+
+  //make the search string that we use to store the query
+  char* searchTerm = malloc(sizeof(char) * DATE_LEN); // MM/DD/YYYY
+  for (int i = 0; i < DATE_LEN; i++)
+    searchTerm[i] = '\0';
+
+  int year, month, day;
+  while (getSearchTerm(&searchTerm, &year, &month, &day) != TRUE){
+    printf("\nInvalid search term. Please try again.\n\n");
+  }
+
+  //parse files for the date- skip first 2 files because those are . and ..
+  int found  = FALSE;
+  for (int i = 2; i < num; i++) {
+    if (parseFile(files[i]->d_name, dir, year, month, day) == TRUE)
+      found = TRUE;
+  }
+
+  if (found == FALSE)
+    printf("\nThere were no sunspots that day!\n");
+
+  for (int i = 0; i < num; i++) // free memory
+    free(files[i]);
+  free(files);
+
+}
+
 void printSpot(SPOT* spot){
 
   //print date
@@ -59,32 +96,6 @@ int getFiles(const char *dir, struct dirent ***files,
   return num; /*will return the number of files in the directory*/ 
 }
 
-void searchForSpots(struct dirent** files, int numfiles, char* dir){
-  while (getc(stdin) != '\n'); //eat up the entire line
-
-  //make the search string that we use to store the query
-  char* searchTerm = malloc(sizeof(char) * DATE_LEN); // MM/DD/YYYY
-  for (int i = 0; i < DATE_LEN; i++)
-    searchTerm[i] = '\0';
-
-  int year, month, day;
-  char c;
-  while (getSearchTerm(&searchTerm, &year, &month, &day) != TRUE){
-    printf("\nInvalid search term. Please try again.\n\n");
-    while ((c = getc(stdin)) != '\n'); //cleans up the input line
-  }
-
-  //parse files for the date- skip first 2 files because those are . and ..
-  int found  = FALSE;
-  for (int i = 2; i < numfiles; i++) {
-    if (parseFile(files[i]->d_name, dir, year, month, day) == TRUE)
-      found = TRUE;
-  }
-
-  if (found == FALSE)
-    printf("\nThere were no sunspots that day!\n");
-}
-
 int getSearchTerm(char** searchTerm, int* year, int* month, int* day){
 
   printf("Please enter your search date in the format MM/DD/YYYY: ");
@@ -100,6 +111,8 @@ int getSearchTerm(char** searchTerm, int* year, int* month, int* day){
   }
 
   sscanf(*searchTerm, "%d/%d/%d", month, day, year);
+
+  while (getchar() != '\n'); //cleans up the input line
 
   return TRUE;
 }

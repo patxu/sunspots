@@ -1,6 +1,7 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+////// Defines
 #define FALSE 0
 #define TRUE 1
 
@@ -58,6 +59,8 @@ Columns Quantity
 70-74   Central  meridian distance, negative to the East.
 */
 
+
+////// Structures
 
 /*
  * a SPOT corresponds to a single sunspot and has information about the sunspot

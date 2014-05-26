@@ -7,29 +7,26 @@
 int argCheck(int argc, char *argv[]);
 
 /*
- * gets the search string from the user, returning TRUE if successful and FALSE
- * if failed. will return failure if the string is in the incorrect format
+ * short function that simply waits for the user to press enter before continuing
  */
-int getSearchTerm(char** searchTerm, int* year, int* month, int* day);
+void enterToContinue();
 
 /*
- * given a SPOT, it will print out all the information about the spot
+ * prints out the menu from which users choose what they want to do in the program
  */
-void printSpot(SPOT* spot);
+void printMenu();
 
 /*
- * given a directory, it will set up an array with all the filenames of that directory
- * and return the number of files, or -1 if failure
+ * prints out the help menu
  */
-int getFiles(const char *dir, struct dirent ***namelist,
-   int(*select)(const struct dirent *),
-   int(*compar)(const struct dirent **, const struct dirent **));
-
-void searchForSpots(struct dirent** filename, int numfiles, char* dir);
+void printHelp();
 
 /*
- * given a string, it will open a file and parse the file, and return a spot
+ * only called in this fuction- implementation in search.c
+ * takes in an array of filenames, the number of files in the data directory, and the
+ * name of the data directory, and deals with calling functions to get the user input
+ * and parse the files
  */
-int parseFile(char *filename, char* dirname, int year, int month, int day);
+void searchForSpots(char* dir);
 
 #endif
