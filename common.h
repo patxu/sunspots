@@ -1,9 +1,8 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-//241940 sunspots, but we only hash with YYYYMMDD string, and we have ~50000 
-//days over the period (1874-2013)
-#define HASH_LEN 20000
+#define FALSE 0
+#define TRUE 1
 
 #define YEAR_LEN 4
 #define MONTH_LEN 2
@@ -18,7 +17,7 @@
 #define DATE_LEN YEAR_LEN + MONTH_LEN + DAY_LEN + 2
 
 /*
-The data format in these the data files is given below.
+The data format in these the data files is given below. Taken from format.txt
 
 Columns Quantity
 1-4     Year
@@ -75,14 +74,5 @@ typedef struct _SPOT {
 } __SPOT;
 
 typedef struct _SPOT SPOT;
-
-/*
- * a sTable has a hashtable that holds all of the sunspots
- */
-typedef struct _sTable {
-  SPOT* hash[HASH_LEN];
-} __sTable;
-
-typedef struct _sTable sTable;
 
 #endif 

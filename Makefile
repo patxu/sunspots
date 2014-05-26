@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -Wall -pedantic -std=c99
 VALFLAGS = --tool=memcheck --leak-check=yes --show-leak-kinds=all 
 DEBUG = -g
-CFILES = sunspots.c
+CFILES = sunspots.c search.c
 ARGS = ./data/
 OUTPUT = mySun
 
