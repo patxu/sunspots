@@ -1,0 +1,10 @@
+					Welcome
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Hello! Welcome to Pat's Sunspot and Solar Sunspot Cycle program. Please use the help menu 
+if this is your first time using the program. Enjoy!
+
+Contact the creator at xu.17@dartmouth.edu.
+View the GitHub project at github.com/patxu/sunspots
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

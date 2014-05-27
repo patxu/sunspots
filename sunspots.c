@@ -31,15 +31,8 @@ int main(int argc, char *argv[]){
     return 1;
   }
 
-  //print start up menu
-  for (int i = 0; i < 50; i++) printf("\n");
-  for (int i = 0; i < 70; i++) printf("~");
-  printf("\nHello! Welcome to Pat's Sunspot and Solar Sunspot Cycle program. Please\n");
-  printf("use the help menu if this is your first time using the program. Enjoy!\n");
-  printf("\nContact the creator at xu.17@dartmouth.edu.\n");
-  printf("View the GitHub project at github.com/patxu/sunspots\n");
-  for (int i = 0; i < 70; i++) printf("~");
-  for (int i = 0; i < 10; i++) printf("\n");
+  //print start up message
+  print(WELCOME);
 
   enterToContinue();
   
@@ -47,23 +40,21 @@ int main(int argc, char *argv[]){
   while (1){
 
     //print menu and process user choice
-    printMenu();
+    print(MENU);
 
-    for (int i = 0; i < 10; i++) printf("\n");
     printf("Enter your choice here: ");
     char choice = getchar();
     while (getchar() != '\n');
 
     if (choice == '1'){ //search for sunspots from a particular date
-      printf("\n");
+      for (int i = 0; i < 70; i++) printf("\n");
       searchForSpots(argv[1]);
     }
     else if (choice == '2'){ //information about the sunspot cycle 
       printf("\n");
     }
     else if (choice == 'h'){
-      printf("\n");
-      printHelp();
+      print(HELP);
     }
     else if (choice == 'x'){ //exit
       printf("\nExiting!\n\n");
@@ -102,31 +93,36 @@ void enterToContinue(){
     while (getchar() != '\n'); //eat up the rest of their input
 }
 
-void printMenu(){
+void print(int option){
   for (int i = 0; i < 40; i++) printf("\n");
-  printf("\n\t\tMenu\n");
-  for (int i = 0; i < 43; i++) printf("~");
-  printf("\n[1] Search for Sunspots by Date\n");
-  printf("[2] Learn about the Solar Sunspot Cycle\n");
-  printf("\n[h] Print Help\n");
-  printf("[x] Exit\n");
-  for (int i = 0; i < 43; i++) printf("~");
-}
 
-void printHelp(){
+  FILE* file;
+  if (option == WELCOME){
+   file = fopen("config/welcome.txt", "r");
+    if (file == NULL){
+      printf("ERROR: welcome file not found\n");
+      return;
+    }
+  }
+  else if (option == MENU){
+    file = fopen("config/menu.txt", "r");
+    if (file == NULL){
+      printf("ERROR: help file not found\n");
+      return;
+    }
+  }
+  else if (option == HELP){
+    file = fopen("config/help.txt", "r");
+    if (file == NULL){
+      printf("ERROR: help file not found\n");
+      return;
+    }
+  }
 
-  for (int i = 0; i < 40; i++) printf("\n");
-  for (int i = 0; i < 72; i++) printf("~");
-  printf("\nThis is a program created for ASTR1. It focuses on sunspots and the\n");
-  printf("solar sunspot cycle. The program is able to several different things:\n");
+  char c;
+  while ((c = fgetc(file)) != EOF)
+    printf("%c", c);
 
-  printf("\n[1] Search for Sunspots by Date\n");
-  printf("\tThis function allows the user to input a date between 05/01/1875 \n");
-  printf("\tand 12/31/2013. It will return to the user all the sunspots\n");
-  printf("\tobserved on that date\n");
-  
-  printf("\n[2] Learn about the Solar Sunspot Cycle\n");
-  printf("\tnot complete\n");
-  for (int i = 0; i < 72; i++) printf("~");
+  fclose(file);
   for (int i = 0; i < 10; i++) printf("\n");
 }

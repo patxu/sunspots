@@ -2,9 +2,16 @@
 #define _COMMON_H_
 
 ////// Defines
+//general
 #define FALSE 0
 #define TRUE 1
 
+//options for printing menus
+#define WELCOME 0
+#define MENU 1
+#define HELP 2
+
+//for SPOTs and parsing files
 #define YEAR_LEN 4
 #define MONTH_LEN 2
 #define DAY_LEN 2
@@ -18,7 +25,8 @@
 #define DATE_LEN YEAR_LEN + MONTH_LEN + DAY_LEN + 2
 
 /*
-The data format in these the data files is given below. Taken from format.txt
+The data format in these the data files is given below. Taken from 
+config/format.txt
 
 Columns Quantity
 1-4     Year

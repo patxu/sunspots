@@ -1,0 +1,14 @@
+					Help
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is a program created for ASTR1. It focuses on sunspots and the solar sunspot cycle. 
+The program is able to several different things:
+
+[1] Search for Sunspots by Date
+  This function allows the user to input a date between 05/01/1875 and 12/31/2013. It will
+  return to the user all the sunspots observed on that date
+
+[2] Learn about the Solar Sunspot Cycle
+  not complete
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

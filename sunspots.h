@@ -12,14 +12,11 @@ int argCheck(int argc, char *argv[]);
 void enterToContinue();
 
 /*
- * prints out the menu from which users choose what they want to do in the program
+ * prints out a text file depending on the option selected. the options include a 
+ * help, welcome, and main file. view them direction in the config/ directory.
+ * view the options in common.h
  */
-void printMenu();
-
-/*
- * prints out the help menu
- */
-void printHelp();
+void print(int option);
 
 /*
  * only called in this fuction- implementation in search.c
