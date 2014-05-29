@@ -1,15 +1,44 @@
 Author: Patrick Xu 
+GitHub: /patxu/sunspots/
 
-THIS PROJECT IS NOT COMPLETE 
+//DESCRIPTION
+This is an project created for ASTR1. It focuses on sunspots and the solar
+sunspot cycle. The program has several features which are detailed below.
 
-This is an project created for an astronomy class. The program will parse
-data about sunspots taken from an online source and allow the user to
-learn about sunspots. They will be able to find out which sunspots appeared
-on a particular date, as well as their location on the sun. They will also
-be able to learn about the solar sunspot cycle.
 
-SEARCH
+//HOW TO RUN
+  Ensure that the entire GitHub project is checked out, including all data
+    directories.
+  Type "make" and follow the help instructions.
 
-  uses the file search.c
 
-LEARN
+//FEATURES
+
+  SEARCH
+    Uses search.c.
+    Takes in a date between 05/01/1874 and 12/31/2013 and returns all of the 
+    sunspots observed on that date.
+
+  MONTHLY AVERAGE
+    Uses average.c.
+    Uses data from http://solarscience.msfc.nasa.gov/greenwch/spot_num.txt.
+    Parses the data to find the average sunspots over all months and compares
+    this value to the average number of sunspots during a month selected by the
+    user.
+
+  LEARN
+    Uses quiz.c.
+    Takes questions from config/quiz.txt and quizes the user on true/false
+    questions.
+
+
+//DIRECTORY BREAKDOWN
+
+  /data/
+    Uses data from http://solarscience.msfc.nasa.gov/greenwch.shtml.
+    Each file is named g[year].txt and contains all of the sunspots for that 
+    year.
+  /data1/
+    Uses data from http://solarscience.msfc.nasa.gov/SunspotCycle.shtml.
+    The single file numspots.txt contains the average Solar Sunspot Number (SSN)
+    for each year between January 1749 and April 2014.
