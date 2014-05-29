@@ -5,8 +5,8 @@ CC = gcc
 CFLAGS = -Wall -pedantic -std=c99
 VALFLAGS = --tool=memcheck --leak-check=yes --show-leak-kinds=all 
 DEBUG = -g
-CFILES = sunspots.c search.c
-ARGS = ./data/
+CFILES = sunspots.c search.c quiz.c average.c
+ARGS = ./data/ ./data1/
 OUTPUT = mySun
 
 #creates and runs the executable

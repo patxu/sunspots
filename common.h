@@ -24,6 +24,9 @@
 #define DEGREE_LEN 5
 #define DATE_LEN YEAR_LEN + MONTH_LEN + DAY_LEN + 2
 
+//for parsing the numspots file
+#define SSN_LEN 3
+
 /*
 The data format in these the data files is given below. Taken from 
 config/format.txt

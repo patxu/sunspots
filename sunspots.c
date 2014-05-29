@@ -20,6 +20,7 @@
 
 #include "common.h"
 #include "sunspots.h"
+#include "average.h"
 
 
 int main(int argc, char *argv[]){
@@ -27,18 +28,16 @@ int main(int argc, char *argv[]){
   //check that arguments are valid
   if (argCheck(argc, argv) != TRUE){
     printf("Argument Error!\n");
-    printf("Please make sure the the only argument is a valid data folder\n\n");
+    printf("Please make sure the the two arguments are valid directories\n\n");
     return 1;
   }
 
   //print start up message
   print(WELCOME);
-
   enterToContinue();
   
   //main loop that allows the user to use the program
   while (1){
-
     //print menu and process user choice
     print(MENU);
 
@@ -50,8 +49,11 @@ int main(int argc, char *argv[]){
       for (int i = 0; i < 70; i++) printf("\n");
       searchForSpots(argv[1]);
     }
-    else if (choice == '2'){ //information about the sunspot cycle 
-      printf("\n");
+    else if (choice == '2'){ // average sunspot number by month
+      monthAverage(argv[2]);
+    }
+    else if (choice == '3'){
+      quiz();
     }
     else if (choice == 'h'){
       print(HELP);
@@ -64,19 +66,28 @@ int main(int argc, char *argv[]){
       printf("\nInvalid choice. Please try again.\n");
     }
 
-  enterToContinue();
+    enterToContinue();
   }
 }
 
 int argCheck(int argc, char *argv[]){
 
-  if (argc != 2){
+  if (argc != 3){
     return FALSE;
   } 
 
-  struct stat mydir;
-  if (stat(argv[1], &mydir) == 0){
-    if(!S_ISDIR(mydir.st_mode)){ //file exists but isn't a directory
+  struct stat mydir1;
+  if (stat(argv[1], &mydir1) == 0){
+    if(!S_ISDIR(mydir1.st_mode)){ //file exists but isn't a directory
+      return FALSE;
+    }
+  }
+  else //file doesn't exist
+    return FALSE;
+
+  struct stat mydir2;
+  if (stat(argv[2], &mydir2) == 0){
+    if(!S_ISDIR(mydir2.st_mode)){ //file exists but isn't a directory
       return FALSE;
     }
   }
@@ -94,7 +105,7 @@ void enterToContinue(){
 }
 
 void print(int option){
-  for (int i = 0; i < 40; i++) printf("\n");
+  //for (int i = 0; i < 40; i++) printf("\n");
 
   FILE* file;
   if (option == WELCOME){
@@ -107,7 +118,7 @@ void print(int option){
   else if (option == MENU){
     file = fopen("config/menu.txt", "r");
     if (file == NULL){
-      printf("ERROR: help file not found\n");
+      printf("ERROR: menu file not found\n");
       return;
     }
   }
@@ -126,3 +137,4 @@ void print(int option){
   fclose(file);
   for (int i = 0; i < 10; i++) printf("\n");
 }
+
