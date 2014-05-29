@@ -1,7 +1,21 @@
-Total: 3 
-Is learning fun? [t/f]
+Total: 10
+Sunspots are particularly hot regions on the sun. [t/f]
+f
+Sunspot formation is strongly connected to the sunpots magnetic fields. [t/f]
 t
-Is the sky blue? [t/f]
+As the temperature of a region on the sun decreases, it should emit more light. [t/f]
+f
+The Sun's magnetic field is the result of ionized gas. [t/f]
 t
-Is astro hard? [t/f]
+We can use absorption line spectra to verify that magnetic fields are present in sunspot areas. [t/f]
+t
+If one were to block out the surrounding area a sunspot would appear completely dark to the naked eye, just like it appears through a telescope. [t/f]
+f
+The solar sunspot cycle is an 11 year cycle. [t/f]
+t
+The sunspots are randomly distributed across the surface of the Sun. [t/f]
+f
+The distribution of sunspots is closely related to the Sun's differential rotation. [t/f]
+t
+The Sun's magnetic field remains relatively unchanged over long periods of time. [t/f]
 f
