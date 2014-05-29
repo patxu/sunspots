@@ -1,0 +1,7 @@
+Total: 3 
+Is learning fun? [t/f]
+t
+Is the sky blue? [t/f]
+t
+Is astro hard? [t/f]
+f
