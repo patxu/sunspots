@@ -105,7 +105,7 @@ void enterToContinue(){
 }
 
 void print(int option){
-  //for (int i = 0; i < 40; i++) printf("\n");
+  for (int i = 0; i < 40; i++) printf("\n");
 
   FILE* file;
   if (option == WELCOME){
