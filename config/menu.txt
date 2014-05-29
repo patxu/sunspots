@@ -2,7 +2,8 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     [1] Search for sunspots by date
-    [2] Learn about the solar sunspot cycle
+    [2] Find out about average sunspots by month
+    [3] Take a sunspot quiz
 
     [h] Help
     [x] Exit
