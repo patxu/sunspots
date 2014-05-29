@@ -28,7 +28,7 @@
 #define SSN_LEN 3
 
 /*
-The data format in these the data files is given below. Taken from 
+The data format for the /data/ files is given below. Taken from 
 config/format.txt
 
 Columns Quantity
@@ -70,6 +70,16 @@ Columns Quantity
 70-74   Central  meridian distance, negative to the East.
 */
 
+/*
+The data format for the /data1/ file is given below. Taken from 
+config/format1.txt
+
+Columns Quantity
+1-4     Year
+5-6     Month
+7-9     SSN (solar sunspot number)
+
+*/
 
 ////// Structures
 

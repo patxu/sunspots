@@ -1,5 +1,5 @@
+The format for the files in data/ is given below.
 The data format in these files changes slightly at years 1977 and 1982.
-The format is given below.
 
 Columns Quantity
 1-4     Year
